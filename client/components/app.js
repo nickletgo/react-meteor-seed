@@ -1,9 +1,14 @@
 import React, {Component} from 'react'
+import Header from './header'
+import CommentMain from './comments/comment_main'
 
 class App extends Component{
     render(){
         return (
-            <div>Here is the App body</div>
+            <div>
+                <Header />
+                <CommentMain />
+            </div>
         ) 
     }
 }
