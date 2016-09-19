@@ -1,11 +1,13 @@
 import { Mongo } from 'meteor/mongo'
+import {check} from 'meteor/check'
 
-Meteor.method({
+Meteor.methods({
     //Can not use ()=>{} function declaration here
     //Since it will not bind to 'this'
     'comments.insert' : function(content){
+        check(content, String)
         console.log('adding a new comment')
-        return Comment.insert(
+        return Comments.insert(
             {
                 content: content
             }
@@ -13,8 +15,9 @@ Meteor.method({
     },
 
     'comments.remove' : function(comment){
-        return Comments.removed(comment)
+        check(comment, Object)
+        return Comments.remove(comment)
     }
 })
 
-export const Comments = new Mongo.Collections('Comments')
+export default Comments = new Mongo.Collection('Comments')

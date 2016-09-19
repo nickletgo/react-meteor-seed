@@ -1,5 +1,8 @@
 import { Meteor } from 'meteor/meteor'
+import Comments from '../imports/collections/comments'
 
 Meteor.startup(() => {
-  // code to run on server at startup
+    Meteor.publish('comments', ()=>{
+        return Comments.find({})
+    })
 })

@@ -1,15 +1,21 @@
 import React, {Component} from 'react'
+import {createContainer} from 'meteor/react-meteor-data'
+import Comments from '../../../imports/collections/comments'
 
 class CommentList extends Component{
-    getCommentList(){
-        const comments = [
-            '1st comment',
-            '2nd comment',
-            '3rd comment'
-        ]
+    onBinRemove(comment){
+        Meteor.call('comments.remove', comment)
+    }
 
-        return comments.map((comment) => {
-            return <li key={comment}>{comment}</li>
+    getCommentList(){
+        //Use this.props to retrieve the data passed from createContainer
+        return this.props.comments.map((comment) => {
+            return <li key={comment._id}>{comment.content}
+                <button
+                    onClick={() => this.onBinRemove(comment)}>
+                    Remove
+                </button>
+            </li>
         })
     }
     
@@ -22,4 +28,8 @@ class CommentList extends Component{
     }
 }
 
-export default CommentList
+//Use createContainer to pass meteor reactive data to React components
+export default createContainer(() => {
+    Meteor.subscribe('comments')
+    return {'comments' : Comments.find({}).fetch()} 
+}, CommentList)
